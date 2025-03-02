@@ -14,7 +14,7 @@ class Place(BaseModel):
         self.price = self._validate_price(price)
         self.latitude = self._validate_coordinate(latitude, "Latitude")
         self.longitude = self._validate_coordinate(longitude, "Longitude")
-        self.owner = self._validate_string_owner(owner)
+        self.owner = self._validate_owner(owner)
         self.reviews = []  # list to store related reviews
         self.amenities = []  # list to store related amenities
 
