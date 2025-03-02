@@ -14,7 +14,7 @@ class Place(BaseModel):
         self.price = self._validate_price(price)
         self.latitude = self._validate_coordinate(latitude, "Latitude")
         self.longitude = self._validate_coordinate(longitude, "Longitude")
-        self.owner = self._validate_string(owner)
+        self.owner = self._validate_string_owner(owner)
         self.reviews = []  # list to store related reviews
         self.amenities = []  # list to store related amenities
 
@@ -36,7 +36,7 @@ class Place(BaseModel):
             raise ValueError(f"{field_name} must be a valid coordinate")
         return float(value)
     
-     def _validate_owner(self, owner):
+    def _validate_owner(self, owner):
         """Validates that the owner is a valid User"""
         if not isinstance(owner, User):
             raise ValueError("Owner must be a User")
