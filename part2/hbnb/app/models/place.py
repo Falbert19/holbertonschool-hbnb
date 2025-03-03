@@ -23,7 +23,7 @@ class Place(BaseModel):
         if not isinstance(value, str) or not value.strip():
             raise ValueError(f"{field_name} must be a non-empty string")
         return value.strip()
-    
+
     def _validate_price(self, value):
         """Validates that price is a positive float."""
         if not isinstance(value, (int, float)) or value < 0:
@@ -35,7 +35,7 @@ class Place(BaseModel):
         if not isinstance(value, (int, float)) or not (-180 <= value <= 180):
             raise ValueError(f"{field_name} must be a valid coordinate")
         return float(value)
-    
+
     def _validate_owner(self, owner):
         """Validates that the owner is a valid User"""
         if not isinstance(owner, User):

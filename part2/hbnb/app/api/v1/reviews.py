@@ -12,6 +12,7 @@ review_model = api.model('Review', {
     'place_id': fields.String(required=True, description='ID of the place')
 })
 
+
 @api.route('/')
 class ReviewList(Resource):
     @api.expect(review_model)
@@ -27,6 +28,7 @@ class ReviewList(Resource):
         """Retrieve a list of all reviews"""
         # Placeholder for logic to return a list of all reviews
         pass
+
 
 @api.route('/<review_id>')
 class ReviewResource(Resource):
@@ -52,6 +54,7 @@ class ReviewResource(Resource):
         """Delete a review"""
         # Placeholder for the logic to delete a review
         pass
+
 
 @api.route('/places/<place_id>/reviews')
 class PlaceReviewList(Resource):
