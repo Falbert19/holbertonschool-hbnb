@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -40,18 +41,29 @@ place_model = api.model('Place', {
 
 @api.route('/')
 class PlaceList(Resource):
+    @jwt_required()
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
         """Register a new place"""
-        pass
+        current_user = get_jwt_identity()
+        place_data = api.payload
+
+        if not place_data.get("title") or not place_data.get("price"):
+            return {"error": "Title and price are required"}, 400
+        
+        new_place = facade.create_place(
+            owner_id=current_user["id"],
+            **place_data
+        )
+        return new_place.to_dict(), 201
 
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
-        pass
-
+        places = facade.get_all_places()
+        return [place.todict() for place in places], 200
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -59,12 +71,29 @@ class PlaceResource(Resource):
     @api.response(404, 'Place not found')
     def get(self, place_id):
         """Get place details by ID"""
-        pass
+        place = facade.get_place(place_id)
+        if not place:
+            return {"error": "Place not found"}, 404
+        return place.to_dict(), 200
+    
+    @api.route('/places/<place_id>')
+    class AdminPlaceModify(Resource):
+        @jwt_required()
+        @api.expect(place_model)
+        @api.response(200, 'Place updated successfully')
+        @api.response(404, 'Place not found')
+        @api.response(400, 'Invalid input data')
+        def put(self, place_id):
+            """Update a place's information"""
+            current_user = get_jwt_identity()
+            place = facade.get_place(place_id)
 
-    @api.expect(place_model)
-    @api.response(200, 'Place updated successfully')
-    @api.response(404, 'Place not found')
-    @api.response(400, 'Invalid input data')
-    def put(self, place_id):
-        """Update a place's information"""
-        pass
+            if not place:
+                return {"error": "Place not found"}, 404
+
+            if place.owner_id != current_user["id"]:
+                return {"error": "Unauthorized action"}, 403
+
+            updated_data = api.payload
+            updated_place = facade.update_place(place_id, updated_data)
+            return updated_place.to_dict(), 200
