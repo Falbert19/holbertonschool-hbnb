@@ -29,12 +29,12 @@ class UserList(Resource):
             return {'error': 'Email already registered'}, 400
         
         #create the new user
-        new_user = {
-            "first_name": user_data['first_name'],
-            "last_name": user_data['last_name'],
-            "email": user_data['email'],
-            "password": user_data['password']
-        }
+        new_user = User(
+            first_name=user_data['first_name'],
+            last_name=user_data['last_name'],
+            email=user_data['email'],
+            password=user_data['password']
+        )
         new_user.hash_password(user_data['password'])
 
         #saves the new user

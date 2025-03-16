@@ -17,6 +17,5 @@ def create_api():
     api.add_namespace(users_ns, path='/users')
     api.add_namespace(amenities_ns, path='/amenities')
     api.add_namespace(places_ns, path='/places')
-    api.add_namespace(auth_ns, path='/auth')
 
     return api_v1

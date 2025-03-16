@@ -8,20 +8,23 @@ bcrypt = Bcrypt()
 
 class User(BaseModel):
     """"Defines a User with atrributes inherited from BaseModel"""
-    def __init__(self, first_name, last_name, email, password, is_admin=False):
+    def __init__(self, first_name, last_name, email, password=None, is_admin=False):
         """Initialize a User instance"""
         super().__init__()
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.is_admin = is_admin
-        self.hash_password(password)
+        self.password_hash = None
+
+        if "password":
+            self.hash_password(password)
 
     
     def hash_password(self, password):
         """Hashes the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
-        return bcrypt.check_password_hash(self.password, password)
+        return bcrypt.check_password_hash(self.password_hash, password)
