@@ -9,6 +9,8 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'  # Change if using another database
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 config = {
