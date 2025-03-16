@@ -1,17 +1,18 @@
 #!/usr/bin/python3
-from app.persistence.repository import InMemoryRepository
+from app import db
+from app.persistence.repository import SQLAlchemyRepository
 from app.models.user import User
+from app.services.repositories.user_repository import UserRepository
 
 
 class HBnBFacade:
     def __init__(self):
-        self.user_repo = InMemoryRepository()
+        self.user_repo =UserRepository()
 
-    def create_user(self, user):
+    def create_user(self, user_data):
         "Store a User instance"
-        if not isinstance(user, User):
-            raise TypeError(f"Expected a dictionary, but got {type(user_data)}: {user_data}")
-    
+        user = User(**user_data)
+        user.hash_password(user_data['password'])
         self.user_repo.add(user)
         return user
 
