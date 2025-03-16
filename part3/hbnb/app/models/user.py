@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 """User class inherits from BaseModel"""
 from .base_model import BaseModel
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
 
 
 class User(BaseModel):

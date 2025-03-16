@@ -11,13 +11,11 @@ jwt = JWTManager()
 
 def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__)
-
     app.config.from_object(config_class)
 
-    app.register_blueprint(create_api())
-
     bcrypt.init_app(app)
-
     jwt.init_app(app)
+
+    app.register_blueprint(create_api())
 
     return app

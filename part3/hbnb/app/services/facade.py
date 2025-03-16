@@ -7,8 +7,11 @@ class HBnBFacade:
     def __init__(self):
         self.user_repo = InMemoryRepository()
 
-    def create_user(self, user_data):
-        user = User(**user_data)
+    def create_user(self, user):
+        "Store a User instance"
+        if not isinstance(user, User):
+            raise TypeError(f"Expected a dictionary, but got {type(user_data)}: {user_data}")
+    
         self.user_repo.add(user)
         return user
 
