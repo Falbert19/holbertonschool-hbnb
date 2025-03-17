@@ -1,12 +1,30 @@
 #!/usr/bin/python3
-"""Defines the place class that represents rental properties.
-A place object stores details such as title, description, price, location,
-and associated reviews and amenities"""
+"""Place Model"""
+from app import db
 from .base_model import BaseModel
-from .user import User
 
+place_amenity = db.Table(
+    'place_amenity',
+    db.Column('place_id', db.Integer, db.ForeignKey('places.id'), primary_key=True),
+    db.Column('amenity_id', db.Integer, db.ForeignKey('amenities.id'), primary_key=True)
+)
 
 class Place(BaseModel):
+    """Represents a rental property in the database."""
+    __tablename__ = "places"
+
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    price = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    # Relationship
+    owner = db.relationship('User', back_populates='places')
+    reviews = db.relationship('Review', back_populates='place', cascade="all, delete-orphan")
+    amenities = db.relationship('Amenity', secondary=place_amenity, back_populates='places')
+
     def __init__(self, title, description, price, latitude, longitude, owner):
         super().__init__()
         self.title = self._validate_string(title, "Title")
@@ -40,7 +58,7 @@ class Place(BaseModel):
         """Validates that the owner is a valid User"""
         if not isinstance(owner, User):
             raise ValueError("Owner must be a User")
-        return owner
+        return owner.id
 
     def add_review(self, review):
         """add a review to the place"""

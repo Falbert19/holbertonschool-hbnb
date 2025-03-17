@@ -1,6 +1,8 @@
 #!/usr/bin/python3
+"""User Model"""
 from app import db, bcrypt
 from .base_model import BaseModel
+
 
 class User(BaseModel):
     """"Defines a User with atrributes inherited from (SQLALCHEMY model)"""
@@ -11,6 +13,9 @@ class User(BaseModel):
     email = db.Column(db.String(120), nullable=False, unique=True, index=True)
     password_hash = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+
+    places = db.relationship('Place', back_populates='owner', cascade="all, delete-orphan")
+    reviews = db.relationship('Review', back_populates='user', cascade="all, delete-orphan")
 
     def __init__(self, first_name, last_name, email, password=None, is_admin=False):
         """Initialize a User instance"""

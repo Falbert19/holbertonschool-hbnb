@@ -4,12 +4,10 @@ from app.models.user import User
 from app.persistence.user_repository import UserRepository
 from flask_sqlalchemy import SQLAlchemy
 
-from app import db
-
-
+db = SQLAlchemy()
 class HBnBFacade:
     def __init__(self):
-        self.user_repo =UserRepository()
+        self.user_repo = UserRepository()
 
     def create_user(self, user_data):
         "Store a User instance"
