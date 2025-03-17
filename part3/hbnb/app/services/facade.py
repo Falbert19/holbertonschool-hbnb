@@ -1,8 +1,10 @@
 #!/usr/bin/python3
-from app import db
 from app.persistence.repository import SQLAlchemyRepository
 from app.models.user import User
-from app.services.repositories.user_repository import UserRepository
+from app.persistence.user_repository import UserRepository
+from flask_sqlalchemy import SQLAlchemy
+
+from app import db
 
 
 class HBnBFacade:

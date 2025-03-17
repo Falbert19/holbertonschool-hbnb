@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-from app import db, bycrypt
+from app import db, bcrypt
 from .base_model import BaseModel
-
 
 class User(BaseModel):
     """"Defines a User with atrributes inherited from (SQLALCHEMY model)"""
@@ -20,12 +19,10 @@ class User(BaseModel):
         self.last_name = last_name
         self.email = email
         self.is_admin = is_admin
-        self.password_hash = None
 
-        if "password":
+        if password:
             self.hash_password(password)
 
-    
     def hash_password(self, password):
         """Hashes the password before storing it."""
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
