@@ -1,8 +1,7 @@
-# HBnB API
-A RESTful API for the Holberton BnB project using Flask and Flask-RESTx.
+# HBnB Project
+The HBnB project is a comprehensive web application that emulates the core functionalities of Airbnb. It integrates various components, including a command-line interpreter, data storage through both file and database systems, a web framework with dynamic content, and a RESTful API.
 
 # 📌 Table of Contents
-📖 Overview
 
 📁 Project Structure
 
@@ -18,9 +17,6 @@ A RESTful API for the Holberton BnB project using Flask and Flask-RESTx.
 
 📜 License
 
-📖 Overview
-
-This project is a RESTful API for the Holberton BnB application, designed using Flask and Flask-RESTx. It allows users to:
 
 Create and manage Users
 
@@ -32,26 +28,39 @@ Use a structured API with Blueprints and Namespaces
 
 # 📁 Project Structure
 ```
-hbnb/
-│── app/
-│   ├── __init__.py          # App initialization
+holbertonschool-hbnb/
+├── README.md
+├── requirements.txt
+├── config.py
+├── run.py
+├── app/
+│   ├── __init__.py
 │   ├── api/
-│   │   ├── __init__.py      # API blueprint setup
-│   │   ├── v1/
-│   │   │   ├── __init__.py
-│   │   │   ├── users.py     # User-related routes
-│   │   │   ├── places.py    # Place-related routes
-│   │   │   ├── amenities.py # Amenity-related routes
-│   ├── services/
-│   │   ├── facade.py        # Business logic layer
+│   │   ├── __init__.py
+│   │   └── v1/
+│   │       ├── __init__.py
+│   │       ├── amenities.py
+│   │       ├── auth.py
+│   │       ├── places.py
+│   │       ├── reviews.py
+│   │       └── users.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── amenity.py
+│   │   ├── base_model.py
+│   │   ├── place.py
+│   │   ├── review.py
+│   │   └── user.py
 │   ├── persistence/
-│   │   ├── repository.py    # In-memory data storage
-│
-│── test/                    # API test cases
-│── venv/                    # Virtual environment
-│── run.py                    # Main Flask app runner
-│── README.md                 # Project documentation
-│── requirements.txt          # Dependencies
+│   │   ├── __init__.py
+│   │   ├── repository.py
+│   │   └── user_repository.py
+│   └── services/
+│       ├── __init__.py
+│       └── facade.py
+└── instance/
+    └── development.db
+
 ```
 #⚙️ Installation
 
@@ -71,6 +80,10 @@ venv\Scripts\activate  # On Windows
 
 pip install -r requirements.txt
 
+## 4 Set up the database
+
+Ensure MySQL is installed and running
+
 # 🚀 Running the API
 
 1️⃣ Set environment variables
@@ -87,7 +100,7 @@ python3 hbnb/run.py
 bash
 Copiar
 Editar
-python3 -m flask routes
+python3 -m flask r
 
 # 🛠 API Endpoints
 ### Users
