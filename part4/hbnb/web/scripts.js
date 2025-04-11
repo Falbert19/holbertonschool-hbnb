@@ -1,6 +1,6 @@
 /* 
-  This is a SAMPLE FILE to get you started.
-  Please, follow the project instructions to complete the tasks.
+  Implements login, place listing, place details and
+  review forms 
 */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,16 +13,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // fetching and display places
     const placeList = document.getElementById('place-list');
     if (placeList) {
-        checkAuthentication();
+        const token = checkAuthentication();
+        fetchPlaces(token);
         setupFilter();
+    }
+
+    // Place details
+    const placeDetails = document.getElementById('place-details');
+    if (placeDetails) {
+        const token = getCookie('token');
+        const placeId = getPlaceIdFromURL();
+        if (token) {
+          document.getElementById('login-link').style.display = 'none';
+          document.getElementById('add-review').style.display = 'block';
+        }
+        fetchPlaceDetails(token, placeId);
     }
 
     // add-review form
     const reviewForm = document.getElementById('review-form');
     if (reviewForm) {
-        reviewForm.addEventListener('submit', handleReviewSubmit);
+        const token = checkAuthentication();
+        const placeId = getPlaceIdFromURL;
+        if (!placeId) {
+            window.location.href = 'index.html'
+        }
+        reviewForm.addEventListener('submit', (event) =>
+            handleReviewSubmit(event, token, placeId)
+        );
     }
   });
+
 
 // Run after DOMContentLoaded block
 
@@ -55,6 +76,43 @@ function getCookie(name) {
     }
   
     return token;
+  }
+
+  /* handlers */
+
+  async function handleLogin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const error = document.getElementById('login-error');
+
+    try {
+        const res = await fetch('http://127.0.0.1:5000/api/v1/login', {
+          method: 'POST'
+          headers: {'Content-Type': 'aplication/json'},
+          body: JSON.stringify({email, password})
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            document.cookie = `token=${data.access_token}; path=/; SameSite=Lax`;
+            window.location.href = 'index.html';
+        } else {
+            const msg = await res.text();
+            error.textContent = 'Login failed: ' + msg;
+        }
+      } catch (err) {
+        error.textContent = 'An error occured. Try again.';
+      }
+  }
+
+  async function fetchPlaces(token) {
+    const res = await fetch('http://127.0.0.1:5000/api/v1/places', {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    });
+    const places = await res.json();
+    displayPlaces(places);
   }
   
   function getPlaceIdFromURL() {
