@@ -23,6 +23,7 @@
                 <option value="100">Under $100</option>
             </select>
         </section>
+
         <section id="places-list">
             <!-- List of places will be populated dynamically -->
         </section>
@@ -30,6 +31,6 @@
     <footer>
         <p>&copy; 2025 All rights reserved.</p>
       </footer>
-      <script src="">'.frontend/static/script/script.js'</script>
+      <script src="{{ url_for('frontend.static', filename='scripts/scripts.js') }}"></script>
 </body>
 </html>

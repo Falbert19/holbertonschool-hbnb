@@ -24,8 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = getCookie('token');
         const placeId = getPlaceIdFromURL();
         if (token) {
-          document.getElementById('login-link').style.display = 'none';
-          document.getElementById('add-review').style.display = 'block';
+          const loginLink = document.getElementById('login-link');
+          const reviewSection = document.getElementById('add-review');
+          if (loginLink) loginLink.style.display = 'none';
+          if (reviewSection) reviewSection.style.display = 'block';
         }
         fetchPlaceDetails(token, placeId);
     }
