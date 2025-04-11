@@ -119,11 +119,43 @@ function getCookie(name) {
     const params = new URLSearchParams(window.location.search);
     return params.get('id');
   }
+
+  async function fetchPlaceDetails(token, placeId) {
+    if (!placeId) return;
+    const res = await fetch(`http://127.0.0.1:5000/api/v1/places/${placeId}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {} 
+    });
+    const place = await res.json();
+    displayPlaceDetails(place);
+  }
+
+  function displayPlaceDetails(place) {
+    const container = document.getElementById('place-details');
+    container.innerHTML = `
+      <div class="place-info">
+        <h2>${place.name}</h2>
+        <p><strong>Price:</strong> $${place.price}</p>
+        <p><strong>Description:</strong> ${place.description}</p>
+        <p><strong>Amenities:</strong> ${place.amenities.join(', ')}</p>
+        <h3>Reviews:</h3>
+      </div>
+    `;
   
-  async function handleReviewSubmit(event) {
+    const reviews = place.reviews || [];
+    reviews.forEach((review) => {
+      const reviewEl = document.createElement('div');
+      reviewEl.className = 'review-card';
+      reviewEl.innerHTML = `
+        <p>${review.comment}</p>
+        <p><strong>- ${review.user}</strong></p>
+        <p>Rating: ${review.rating}/5</p>
+      `;
+      container.appendChild(reviewEl);
+    });
+  }
+  
+  async function handleReviewSubmit(event, token, placeId) {
     event.preventDefault();
-  
-    const token = getCookie('token');
     if (!token) {
       window.location.href = 'index.html';
       return;
