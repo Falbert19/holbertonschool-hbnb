@@ -110,7 +110,7 @@ function getCookie(name) {
   }
   
   async function submitReview(token, placeId, comment, rating) {
-    return await fetch('https://your-api-url/reviews', {
+    return await fetch('https://http://127.0.0.1:5000/api/v1//reviews', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -123,4 +123,3 @@ function getCookie(name) {
       })
     });
   }
-  
