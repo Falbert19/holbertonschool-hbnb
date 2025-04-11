@@ -8,21 +8,28 @@
 </head>
 <body>
     <header>
+        <img src="images/logo.png" alt="logo" class="logo" />
         <nav>
-            <a href="login.html" id="login-link">Login</a>
+            <a href="login.html" id="login-link" class="login-button">Login</a>
         </nav>
     </header>
     <main>
         <section id="filter">
             <label for="price-filter">Max Price:</label>
             <select id="price-filter">
-                <!-- Options will be populated dynamically -->
+                <option value="all">All</option>
+                <option value="10">Under $10</option>
+                <option value="50">Under $50</option>
+                <option value="100">Under $100</option>
             </select>
         </section>
         <section id="places-list">
             <!-- List of places will be populated dynamically -->
         </section>
     </main>
+    <footer>
+        <p>&copy; 2025 All rights reserved.</p>
+      </footer>
     <script src="scripts.js"></script>
 </body>
 </html>
