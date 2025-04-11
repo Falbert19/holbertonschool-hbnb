@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Review</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('frontend.static', filename='styles/style.css') }}">
+    <link rel="icon" href="{{ url_for('frontend.static', filename='images/logo.png') }}">
 "</head>
 <body>
     <header>
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo" />
+        <img src="{{ url_for('frontend.static', filename='images/logo.png') }}" alt="Logo" class="logo" />
         <nav>
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('login') }}" class="login-button">Login</a>
+            <a href="{{ url_for('frontend.index') }}">Home</a>
+            <a href="{{ url_for('frontend.login') }}" class="login-button">Login</a>
         </nav>
     </header>
 
@@ -42,7 +42,8 @@
     <footer>
         <p>&copy; 2025 All rights reserved.</p>
     </footer>
-    
-    <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
+
+    <script src="{{ url_for('frontend.static', filename='scripts/script.js') }}"></script>
+
 </body>
 </html>

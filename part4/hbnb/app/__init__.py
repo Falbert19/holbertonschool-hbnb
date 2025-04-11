@@ -20,4 +20,7 @@ def create_app(config_class=DevelopmentConfig):
     from app.api import create_api
     app.register_blueprint(create_api())
 
+    from app.frontend import create_frontend
+    app.register_blueprint(create_frontend())
+
     return app
