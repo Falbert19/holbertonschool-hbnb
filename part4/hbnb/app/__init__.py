@@ -4,13 +4,20 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from config import DevelopmentConfig
+import os
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 jwt = JWTManager()
 
 def create_app(config_class=DevelopmentConfig):
-    app = Flask(__name__, static_folder='app/frontend/static', static_url_path='/static')
+    static_path = os.path.join(os.path.dirname(__file__), 'frontend', 'static')
+
+    app = Flask(
+        __name__,
+        static_folder=static_path,
+        static_url_path='/static'
+    )
     app.config.from_object(config_class)
 
     db.init_app(app)
